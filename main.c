@@ -6,13 +6,13 @@
 /*   By: sozbek <sozbek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:11:28 by sozbek            #+#    #+#             */
-/*   Updated: 2025/03/01 23:20:10 by sozbek           ###   ########.fr       */
+/*   Updated: 2025/03/02 21:01:18 by sozbek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	free_and_exit_with_message(t_stack *s, char *message)
+void	free_and_exit_message(t_stack *s, char *message)
 {
 	if (message)
 		write(2, message, ft_strlen(message));
@@ -44,13 +44,13 @@ static void	argument_control_two(int argc, char **argv)
 		{
 			if (ft_isdigit(argv[i][j]) && (argv[i][j + 1] == '-' || argv[i][j
 					+ 1] == '+'))
-				free_and_exit_with_message(NULL, "Erroralloo\n");
+				free_and_exit_message(NULL, "Error\n");
 			if (ft_isdigit(argv[i][j]))
 				c = 1;
 			j++;
 		}
 		if (c != 1)
-			free_and_exit_with_message(NULL, "Error\n");
+			free_and_exit_message(NULL, "Error\n");
 	}
 }
 
@@ -64,14 +64,14 @@ static void	argument_control(int argc, char **argv)
 	{
 		j = 0;
 		if (!argv[i][0])
-			free_and_exit_with_message(NULL, "Error\n");
+			free_and_exit_message(NULL, "Error\n");
 		while (argv[i][j] != '\0')
 		{
 			if ((!(ft_isdigit(argv[i][j])) && (argv[i][j] != '-'
 				&& argv[i][j] != '+' && argv[i][j] != ' '))
 				|| (argv[i][j] == '-' && !ft_isdigit(argv[i][j + 1]))
 				|| (argv[i][j] == '+' && !ft_isdigit(argv[i][j + 1])))
-				free_and_exit_with_message(NULL, "Error\n");
+				free_and_exit_message(NULL, "Error\n");
 			j++;
 		}
 	}
@@ -103,7 +103,7 @@ static void	join_args(int argc, char **argv, t_stack *s)
 	if (tmp)
 		free(tmp);
 	if (!s->join_args)
-		free_and_exit_with_message(s, "Error\n");
+		free_and_exit_message(s, "Error\n");
 }
 
 int	main(int argc, char **argv)
@@ -111,12 +111,12 @@ int	main(int argc, char **argv)
 	t_stack	*s;
 
 	if (argc < 2)
-		free_and_exit_with_message(NULL, "");
+		free_and_exit_message(NULL, "");
 	argument_control(argc, argv);
 	s = malloc(sizeof(t_stack));
 	if (s == NULL)
 		exit(1);
-	initialize_stacks(argc, argv, s);
+	start_stacks(argc, argv, s);
 	join_args(argc, argv, s);
 	parse_numbers(s);
 	if (s->a_size == 2 && s->a[0] > s->a[1])
@@ -130,7 +130,7 @@ int	main(int argc, char **argv)
 		create_index(s);
 		radix_sort(s);
 	}
-	exit_if_sorted_or_has_duplicate(s, 1);
-	free_and_exit_with_message(s, "Error\n");
+	exit_if_sorted_or_repeat(s, 1);
+	free_and_exit_message(s, "Error\n");
 	return (0);
 }

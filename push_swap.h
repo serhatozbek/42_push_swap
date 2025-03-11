@@ -6,7 +6,7 @@
 /*   By: sozbek <sozbek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:11:36 by sozbek            #+#    #+#             */
-/*   Updated: 2025/03/02 00:15:00 by sozbek           ###   ########.fr       */
+/*   Updated: 2025/03/02 20:51:33 by sozbek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ void		sa(t_stack *stack);
 
 void		parse_numbers(t_stack *s);
 void		create_index(t_stack *s);
-void		initialize_stacks(int argc, char **argv, t_stack *s);
-void		free_and_exit_with_message(t_stack *s, char *message);
-void		exit_if_sorted_or_has_duplicate(t_stack *s, int i);
+void		start_stacks(int argc, char **argv, t_stack *s);
+void		free_and_exit_message(t_stack *s, char *message);
+void		exit_if_sorted_or_repeat(t_stack *s, int i);
 int			is_array_sorted(t_stack *s);
-int			ft_atol(const char *n, t_stack *s);
+int			ft_atol(const char *n, t_stack *s, char **tmp);
+void		free_tmp(char **tmp);
 
 #endif

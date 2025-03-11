@@ -6,13 +6,13 @@
 /*   By: sozbek <sozbek@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:11:46 by sozbek            #+#    #+#             */
-/*   Updated: 2025/03/02 00:13:21 by sozbek           ###   ########.fr       */
+/*   Updated: 2025/03/02 21:05:09 by sozbek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	initialize_stacks(int argc, char **argv, t_stack *s)
+void	start_stacks(int argc, char **argv, t_stack *s)
 {
 	int	i;
 
@@ -29,10 +29,10 @@ void	initialize_stacks(int argc, char **argv, t_stack *s)
 	}
 	s->a = malloc(s->a_size * sizeof(int));
 	if (s->a == NULL)
-		free_and_exit_with_message(s, "Error\n");
+		free_and_exit_message(s, "Error\n");
 	s->b = malloc(s->a_size * sizeof(int));
 	if (s->b == NULL)
-		free_and_exit_with_message(s, "Error\n");
+		free_and_exit_message(s, "Error\n");
 }
 
 void	parse_numbers(t_stack *s)
@@ -45,15 +45,12 @@ void	parse_numbers(t_stack *s)
 	tmp = ft_split(s->join_args, ' ');
 	i = 0;
 	while (tmp[i] != NULL && tmp[i][0] != '\0')
-	{
-		s->a[z++] = ft_atol(tmp[i++], s);
-		free(tmp[i - 1]);
-	}
-	free(tmp);
-	exit_if_sorted_or_has_duplicate(s, 0);
+		s->a[z++] = ft_atol(tmp[i++], s, tmp);
+	free_tmp(tmp);
+	exit_if_sorted_or_repeat(s, 0);
 }
 
-int	ft_atol(const char *n, t_stack *s)
+int	ft_atol(const char *n, t_stack *s, char **tmp)
 {
 	int		i;
 	int		sign;
@@ -74,11 +71,14 @@ int	ft_atol(const char *n, t_stack *s)
 		res = res * 10 + (n[i++] - '0');
 	res = res * sign;
 	if (res > 2147483647 || res < -2147483648)
-		free_and_exit_with_message(s, "Error\n");
-	return (res * sign);
+	{
+		free_tmp(tmp);
+		free_and_exit_message(s, "Error\n");
+	}
+	return ((int)res);
 }
 
-void	exit_if_sorted_or_has_duplicate(t_stack *s, int i)
+void	exit_if_sorted_or_repeat(t_stack *s, int i)
 {
 	int	j;
 
@@ -91,14 +91,14 @@ void	exit_if_sorted_or_has_duplicate(t_stack *s, int i)
 			while (j < s->a_size)
 			{
 				if (s->a[i] == s->a[j])
-					free_and_exit_with_message(s, "Error\n");
+					free_and_exit_message(s, "Error\n");
 				j++;
 			}
 			i++;
 		}
 	}
 	if (is_array_sorted(s))
-		free_and_exit_with_message(s, NULL);
+		free_and_exit_message(s, NULL);
 }
 
 void	create_index(t_stack *s)
@@ -109,8 +109,8 @@ void	create_index(t_stack *s)
 	int	*new_a;
 
 	new_a = malloc(s->a_size * sizeof(int));
-	if (new_a == NULL)
-		free_and_exit_with_message(s, "Error\n");
+	if (!new_a)
+		free_and_exit_message(s, "Error\n");
 	i = -1;
 	while (++i < s->a_size)
 	{

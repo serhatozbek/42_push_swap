@@ -6,7 +6,7 @@
 #    By: sozbek <sozbek@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/28 14:11:32 by sozbek            #+#    #+#              #
-#    Updated: 2025/03/01 23:09:55 by sozbek           ###   ########.fr        #
+#    Updated: 2025/03/02 20:51:13 by sozbek           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 SRCS = main.c radix_sort.c selection_sort.c utils.c \
-swap_rules.c r_rules.c push_rules.c
+swap_rules.c r_rules.c push_rules.c utils_two.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(MLX) $(LIBFT) $(NAME)
